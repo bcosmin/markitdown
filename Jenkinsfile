@@ -1,18 +1,19 @@
 pipeline {
-    agent {label 'dev'}
+    agent any
     
     environment {
         UPSTREAM_REPO = 'https://github.com/microsoft/markitdown.git'
-        BRANCH = 'main'
+        BRANCH = 'main' // Replace with actual branch name
     }
     
     stages {
         stage('Clone Forked Repo') {
             steps {
                 script {
-                    sh 'git clone $GIT_URL repo'
+                    // Clone the forked repository
+                    bat 'git clone %GIT_URL% repo'
                     dir('repo') {
-                        sh 'git remote -v'
+                        bat 'git remote -v'  // Verify remotes
                     }
                 }
             }
@@ -22,8 +23,8 @@ pipeline {
             steps {
                 script {
                     dir('repo') {
-                        sh 'git remote add upstream $UPSTREAM_REPO || true'
-                        sh 'git fetch upstream'
+                        bat 'git remote add upstream %UPSTREAM_REPO% || echo Upstream already added'
+                        bat 'git fetch upstream'
                     }
                 }
             }
@@ -33,7 +34,7 @@ pipeline {
             steps {
                 script {
                     dir('repo') {
-                        def changes = sh(script: 'git diff upstream/$BRANCH -- Jenkinsfile', returnStdout: true).trim()
+                        def changes = bat(script: 'git diff upstream/%BRANCH% -- Jenkinsfile', returnStdout: true).trim()
                         if (changes) {
                             echo "Jenkinsfile has updates!"
                         } else {
