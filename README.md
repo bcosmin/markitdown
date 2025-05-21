@@ -4,6 +4,9 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dd/markitdown)
 [![Built by AutoGen Team](https://img.shields.io/badge/Built%20by-AutoGen%20Team-blue)](https://github.com/microsoft/autogen)
 
+> [!TIP]
+> MarkItDown now offers an MCP (Model Context Protocol) server for integration with LLM applications like Claude Desktop. See [markitdown-mcp](https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp) for more information.
+
 > [!IMPORTANT]
 > Breaking changes between 0.0.1 to 0.1.0:
 > * Dependencies are now organized into optional feature-groups (further details below). Use `pip install 'markitdown[all]'` to have backward-compatible behavior. 
@@ -36,6 +39,31 @@ responses unprompted. This suggests that they have been trained on vast amounts 
 Markdown-formatted text, and understand it well. As a side benefit, Markdown conventions
 are also highly token-efficient.
 
+## Prerequisites
+MarkItDown requires Python 3.10 or higher. It is recommended to use a virtual environment to avoid dependency conflicts.
+
+With the standard Python installation, you can create and activate a virtual environment using the following commands:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+If using `uv`, you can create a virtual environment with:
+
+```bash
+uv venv --python=3.12 .venv
+source .venv/bin/activate
+# NOTE: Be sure to use 'uv pip install' rather than just 'pip install' to install packages in this virtual environment
+```
+
+If you are using Anaconda, you can create a virtual environment with:
+
+```bash
+conda create -n markitdown python=3.12
+conda activate markitdown
+```
+
 ## Installation
 
 To install MarkItDown, use pip: `pip install 'markitdown[all]'`. Alternatively, you can install it from the source:
@@ -43,7 +71,7 @@ To install MarkItDown, use pip: `pip install 'markitdown[all]'`. Alternatively, 
 ```bash
 git clone git@github.com:microsoft/markitdown.git
 cd markitdown
-pip install -e packages/markitdown[all]
+pip install -e 'packages/markitdown[all]'
 ```
 
 ## Usage
@@ -70,7 +98,7 @@ cat path-to-file.pdf | markitdown
 MarkItDown has optional dependencies for activating various file formats. Earlier in this document, we installed all optional dependencies with the `[all]` option. However, you can also install them individually for more control. For example:
 
 ```bash
-pip install markitdown[pdf, docx, pptx]
+pip install 'markitdown[pdf, docx, pptx]'
 ```
 
 will install only the dependencies for PDF, DOCX, and PPTX files.
